@@ -10,7 +10,6 @@ use yii\widgets\Pjax;
 /* @var $dataProvider ActiveDataProvider */
 /* @var $model HistorySearch */
 /* @var $linkExport string */
-
 ?>
 
 <?php Pjax::begin(['id' => 'grid-pjax', 'formSelector' => false]); ?>

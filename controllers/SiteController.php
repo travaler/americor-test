@@ -38,10 +38,10 @@ class SiteController extends Controller
      */
     public function actionExport($exportType)
     {
-        $model = new HistorySearch();
+        $model = Yii::$container->get(HistorySearch::class);
 
         return $this->render('export', [
-            'dataProvider' => $model->search(Yii::$app->request->queryParams),
+            'dataProvider' => $model->search(Yii::$app->request->queryParams, true),
             'exportType' => $exportType,
             'model' => $model
         ]);

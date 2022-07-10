@@ -16,7 +16,7 @@ class HistoryList extends Widget
      */
     public function run()
     {
-        $model = new HistorySearch();
+        $model = Yii::$container->get(HistorySearch::class);
 
         return $this->render('main', [
             'model' => $model,
