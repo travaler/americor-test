@@ -2,9 +2,12 @@
 
 namespace app\models\search;
 
+use app\core\HistoryAssembler;
+use app\core\MapDataProvider;
 use app\models\History;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\data\DataProviderInterface;
 
 /**
  * HistorySearch represents the model behind the search form about `app\models\History`.
@@ -13,6 +16,18 @@ use yii\data\ActiveDataProvider;
  */
 class HistorySearch extends History
 {
+    /** @var HistoryAssembler */
+    private $assembler;
+
+    public function __construct(
+        HistoryAssembler $assembler,
+        $config = []
+    ) {
+        $this->assembler = $assembler;
+
+        parent::__construct($config);
+    }
+
     /**
      * @inheritdoc
      */
@@ -35,9 +50,9 @@ class HistorySearch extends History
      *
      * @param array $params
      *
-     * @return ActiveDataProvider
+     * @return DataProviderInterface
      */
-    public function search($params)
+    public function search($params, bool $forExport = false)
     {
         $query = History::find();
 
@@ -72,6 +87,12 @@ class HistorySearch extends History
             'fax',
         ]);
 
-        return $dataProvider;
+        return new MapDataProvider(
+            $dataProvider,
+            [$this->assembler, 'assemble'],
+            [
+                'forExport' => $forExport,
+            ]
+        );
     }
 }
